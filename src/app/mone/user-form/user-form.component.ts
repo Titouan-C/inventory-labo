@@ -12,7 +12,6 @@ export class UserFormComponent {
     prenom: '',
     email: '',
     password: '',
-    confirmPassword: ''
   };
 
   constructor(private router: Router) {}
