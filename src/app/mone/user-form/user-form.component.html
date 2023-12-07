@@ -1,0 +1,32 @@
+<div>
+  <h2>User Information Form</h2>
+  <form #userForm="ngForm">
+    <div>
+      <label for="nom">Nom:</label>
+      <input type="text" id="nom" name="nom" [(ngModel)]="user.nom" required>
+    </div>
+    <div>
+      <label for="prenom">Prenom:</label>
+      <input type="text" id="prenom" name="prenom" [(ngModel)]="user.prenom" required>
+    </div>
+    <div>
+      <label for="email">Adresse mail:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
+    </div>
+    <div>
+      <label for="password">Mot de passe:</label>
+      <input type="password" id="password" name="password" [(ngModel)]="user.password" required>
+    </div>
+    <button type="submit" [disabled]="userForm.invalid">Submit</button>
+  </form>
+</div>
+
+<div>
+  <p>This is the UserFormComponent!</p>
+</div>
+
+<!-- "Retour en arrière" button (Navigate back) -->
+<button (click)="goBack()">Retour en arriere</button>
+
+<!-- "S'inscrire" button (Register) -->
+<button (click)="navigateToRegistration()">S'inscrire</button>
