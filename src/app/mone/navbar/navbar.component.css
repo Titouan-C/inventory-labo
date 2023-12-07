@@ -1,6 +1,5 @@
 nav {
-  position: fixed;
-  top: 2vh;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
   display: inline-block;
@@ -47,4 +46,8 @@ ul li:hover a {
 
 .active {
   background-color: firebrick;
+}
+
+nav div ul li.active a {
+  color: white;
 }

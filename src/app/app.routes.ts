@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './mone/navbar/navbar.component';
+import { HomeComponent } from './mone/home/home.component';
 
 export const routes: Routes = [
-    { path: 'home/', component: NavbarComponent },
+    { path: 'home/', component: HomeComponent },
     { path: '', redirectTo: 'home/', pathMatch: 'full' }
 ];
