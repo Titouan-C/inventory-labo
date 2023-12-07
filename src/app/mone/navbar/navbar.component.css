@@ -1,0 +1,50 @@
+nav {
+  position: fixed;
+  top: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-block;
+  border: 2px solid lightgray;
+  border-radius: 30px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+ul {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0 3vh;
+  list-style: none;
+  width: max-content;
+}
+
+ul li:not(:last-child) {
+  margin-right: 2vw;
+}
+
+ul li {
+  border: 2px solid transparent;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+ul li:hover {
+  background-color: black;
+  transition: ease-in 0.1s;
+}
+
+ul li:hover a {
+  color: white;
+}
+
+.active {
+  background-color: firebrick;
+}
