@@ -1,0 +1,14 @@
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css"
+/>
+<form [formGroup]="Userform" (ngSubmit)="onSubmit()">
+  <label for="Password">Mot de passe :</label>
+  <input id="Password" type="text" formControlName="Password" />
+
+  <br />
+
+  <button type="submit" class="btn btn-primary">Envoyer</button>
+  <br />
+</form>
+<p></p>
