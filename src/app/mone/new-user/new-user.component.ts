@@ -23,6 +23,7 @@ export class NewUserComponent {
       Ecole: this.fb.control(''),
       Role: this.fb.control(''),
       Password: this.fb.control('', [Validators.required]),
+      ConfirmPassword: this.fb.control('', [Validators.required]),
     },
     { updateOn: 'submit' }
   );
@@ -40,9 +41,18 @@ export class NewUserComponent {
   }
   onSubmit() {
     this.submitted = true;
+
     if (this.Userform.valid) {
-      this.model = { ...this.model!, ...this.Userform.value };
-      this.emitUser.emit(this.model!);
+      const newPassword = this.Userform.get('Password')?.value;
+      const confirmPassword = this.Userform.get('ConfirmPassword')?.value;
+
+      // Perform password validation
+      if (newPassword === confirmPassword) {
+        this.model = { ...this.model!, ...this.Userform.value };
+        this.emitUser.emit(this.model!);
+      } else {
+        console.log('Password and Confirm Password do not match.');
+      }
     }
     console.log(this.model);
   }

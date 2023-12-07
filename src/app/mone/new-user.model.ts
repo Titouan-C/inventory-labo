@@ -6,6 +6,7 @@ export class NewUser {
   Ecole: string | null;
   Role: string | null;
   Password: string | null;
+  ConfirmPassword: string | null;
 
   constructor(
     id: number = 0,
@@ -14,7 +15,8 @@ export class NewUser {
     mail: string = '',
     ecole: string = '',
     role: string = '',
-    password: string = ''
+    password: string = '',
+    confirmPassword: string = ''
   ) {
     this.id = id;
     this.Nom = nom;
@@ -23,5 +25,6 @@ export class NewUser {
     this.Ecole = ecole;
     this.Role = role;
     this.Password = password;
+    this.ConfirmPassword = confirmPassword;
   }
 }
