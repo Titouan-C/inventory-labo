@@ -9,4 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
   exports: [ModPasseComponent, NewUserComponent],
 })
-export class MoneModule {}
+export class MoneModule {
+  users = [];
+}

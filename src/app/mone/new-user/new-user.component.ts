@@ -46,7 +46,6 @@ export class NewUserComponent {
       const newPassword = this.Userform.get('Password')?.value;
       const confirmPassword = this.Userform.get('ConfirmPassword')?.value;
 
-      // Perform password validation
       if (newPassword === confirmPassword) {
         this.model = { ...this.model!, ...this.Userform.value };
         this.emitUser.emit(this.model!);
