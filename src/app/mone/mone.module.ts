@@ -25,4 +25,6 @@ import { AuthService } from './auth/auth.service';
     LoginComponent
   ]
 })
-export class MoneModule { }
+export class MoneModule {
+  users = [];
+}
