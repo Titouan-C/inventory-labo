@@ -1,13 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModPasseComponent } from './mod-passe/mod-passe.component';
-import { NewUserComponent } from './new-user/new-user.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { RouterModule } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
-  declarations: [ModPasseComponent, NewUserComponent],
-  imports: [CommonModule, ReactiveFormsModule],
-  exports: [ModPasseComponent, NewUserComponent],
+  declarations: [
+    NavbarComponent,
+    LoginComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    NavbarComponent,
+    LoginComponent
+  ],
+  providers: [
+    AuthService,
+    LoginComponent
+  ]
 })
 export class MoneModule {
   users = [];
