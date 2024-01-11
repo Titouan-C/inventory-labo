@@ -1,8 +1,7 @@
-// modification.component.ts
-
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-// import { AuthService } from '../auth.service';
+import { FormBuilder } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modification',
@@ -22,12 +21,12 @@ export class ModificationComponent implements OnInit {
 
   submitted = false;
 
-  constructor(private fb: FormBuilder, private /*authService: AuthService*/) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.submitted = false;
 
-    const currentUser = this./*authService.getCurrentUser()*/;
+    const currentUser = this.authService.getCurrentUser();
 
     if (currentUser) {
       this.Userform.patchValue(currentUser);
@@ -41,19 +40,34 @@ export class ModificationComponent implements OnInit {
       const newPassword = this.Userform.get('Password')?.value;
       const confirmPassword = this.Userform.get('ConfirmPassword')?.value;
 
-      // Perform password validation
       if (newPassword === confirmPassword) {
-        const updatedData = { ...this.Userform.value };
-        this./*authService.updateCurrentUser*/(updatedData);
-        console.log('User updated:', this./*authService.getCurrentUser()*/);
+        const user = this.authService.getCurrentUser();
+        if (user) {
+          const formValues = this.Userform.getRawValue();
+          const updatedData = {
+            id: user.id!,
+            Nom: formValues.Nom || null,
+            Prenom: formValues.Prenom || null,
+            Mail: formValues.Mail || null,
+            Ecole: formValues.Ecole || null,
+            Role: formValues.Role || null,
+            Password: formValues.Password || null,
+            ConfirmPassword: formValues.ConfirmPassword || null,
+          };
+          this.authService.updateCurrentUser(updatedData);
+          alert('User updated:' + this.authService.getCurrentUser());
+          this.router.navigate(['/']);
+        } else {
+          alert('No current user found.');
+        }
       } else {
-        console.log('Password and Confirm Password do not match.');
+        alert('Password and Confirm Password do not match.');
       }
     }
   }
 
   resetForm() {
-    const currentUser = this./*authService.getCurrentUser()*/;
+    const currentUser = this.authService.getCurrentUser();
     if (currentUser) {
       this.Userform.patchValue(currentUser);
     }

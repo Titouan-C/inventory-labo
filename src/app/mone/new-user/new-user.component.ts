@@ -28,7 +28,8 @@ export class NewUserComponent {
     { updateOn: 'submit' }
   );
   submitted = false;
-  constructor(private fb: FormBuilder) {}
+  
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.submitted = false;

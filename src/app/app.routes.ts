@@ -7,11 +7,11 @@ import { ModificationComponent } from './mone/modification/modification.componen
 import { ModPasseComponent } from './mone/mod-passe/mod-passe.component';
 
 export const routes: Routes = [
-    { path: 'home/', component: HomeComponent },
+    { path: 'home', component: HomeComponent },
     { path: 'user/register', component: NewUserComponent },
     { path: 'user/login', component: LoginComponent },
     { path: 'user/logout', component: LogoutComponent },
     { path: 'user/update', component: ModificationComponent },
     { path: 'user/update-pwd', component: ModPasseComponent },
-    { path: '', redirectTo: 'home/', pathMatch: 'full' }
+    { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
