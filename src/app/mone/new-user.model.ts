@@ -1,5 +1,5 @@
 export class NewUser {
-  id: number | null;
+  id: number;
   Nom: string | null;
   Prenom: string | null;
   Mail: string | null;

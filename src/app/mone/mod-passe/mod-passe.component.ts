@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { NewUser } from '../new-user.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-mod-passe',
@@ -14,6 +15,7 @@ export class ModPasseComponent {
 
   Userform = this.fb.group(
     {
+      actualPassword: this.fb.control('', [Validators.required]),
       Password: this.fb.control('', [Validators.required]),
       ConfirmPassword: this.fb.control('', [Validators.required]),
     },
@@ -22,7 +24,7 @@ export class ModPasseComponent {
 
   submitted = false;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     this.submitted = false;
@@ -36,18 +38,27 @@ export class ModPasseComponent {
     this.submitted = true;
 
     if (this.Userform.valid) {
+      const actualPassword = this.Userform.get('actualPassword')?.value;
       const newPassword = this.Userform.get('Password')?.value;
       const confirmPassword = this.Userform.get('ConfirmPassword')?.value;
 
       if (newPassword === confirmPassword) {
-        this.model = { ...this.model!, ...this.Userform.value };
-        this.emitUser.emit(this.model!);
-        this.router.navigate(['/']);
+        if (this.authService.getCurrentUser()) {
+          if (this.authService.getCurrentUser()?.Password === actualPassword) {
+            this.authService.modificationPasswordCurrentUser(newPassword!);
+            alert("Updated password")
+            this.router.navigate(['/']);
+          } else {
+            alert("Incorrect actual password");
+          }
+        } else {
+          alert("Error : you are not connected")
+          this.router.navigate(['/user/login']);
+        }
       } else {
         alert('Password and Confirm Password do not match.');
       }
     }
-    console.log(this.model);
   }
 
   resetForm() {
