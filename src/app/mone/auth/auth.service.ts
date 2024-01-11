@@ -1,28 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-
-type User = {
-  id: number;
-  nom: string;
-  prenom: string;
-  mail: string;
-  ecole: string;
-  roles: Array<string>;
-  password: string;
-};
+import { NewUser } from '../new-user.model';
 
 @Injectable()
 export class AuthService {
-  private readonly users: User[] = [
-    { id: 1, nom: 'nom1', prenom: 'prenom1', mail: 'mail1@ipi.fr', ecole: 'ipi-tstn1', roles: ['user', 'student'], password: 'pass1' },
-    { id: 2, nom: 'nom2', prenom: 'prenom2', mail: 'mail2@ipi.fr', ecole: 'ipi-tstn2', roles: ['user', 'student'], password: 'pass2' },
-    { id: 3, nom: 'nom3', prenom: 'prenom3', mail: 'mail3@ipi.fr', ecole: 'ipi-asrbd', roles: ['user', 'student'], password: 'pass3' },
+  private users: NewUser[] = [
+    { id: 1, Nom: 'nom1', Prenom: 'prenom1', Mail: 'mail1@ipi.fr', Ecole: 'ipi-tstn1', Role: 'student', Password: 'pass1', ConfirmPassword: 'pass1' },
+    { id: 2, Nom: 'nom2', Prenom: 'prenom2', Mail: 'mail2@ipi.fr', Ecole: 'ipi-tstn2', Role: 'student', Password: 'pass2', ConfirmPassword: 'pass2' },
+    { id: 3, Nom: 'nom3', Prenom: 'prenom3', Mail: 'mail3@ipi.fr', Ecole: 'ipi-asrbd', Role: 'student', Password: 'pass3', ConfirmPassword: 'pass3' },
   ];
 
-  private currentUser: User | null = null;
+  private currentUser: NewUser | null = null;
 
   login(mail: string, password: string): Observable<boolean> {
-    const user = this.users.find(u => u.mail === mail && u.password === password);
+    const user = this.users.find(u => u.Mail === mail && u.Password === password);
     if (user) {
       this.currentUser = user;
       localStorage.setItem('currentUser', JSON.stringify(user));
@@ -37,7 +28,7 @@ export class AuthService {
     localStorage.removeItem('currentUser');
   }
 
-  getCurrentUser(): User | null {
+  getCurrentUser(): NewUser | null {
     if (!this.currentUser) {
       const storedUser = localStorage.getItem('currentUser');
       if (storedUser) {
@@ -47,21 +38,29 @@ export class AuthService {
     return this.currentUser;
   }
 
-  getMail(): string {
+  getMail(): string | null {
     let user = this.getCurrentUser();
     if (!user) {
       return "";
     } else {
-      return user.mail;
+      return user.Mail;
     }
   }
 
-  getPassword(): string {
+  getPassword(): string | null {
     let user = this.getCurrentUser();
     if (!user) {
       return "";
     } else {
-      return user.password;
+      return user.Password;
     }
+  }
+
+  updateCurrentUser(newUser: NewUser): void {
+    const userIndex = this.users.findIndex(u => u.id === this.currentUser?.id);
+    if (userIndex !== -1) {
+      this.users[userIndex] = newUser;
+    }
+    localStorage.setItem('currentUser', JSON.stringify(newUser));
   }
 }

@@ -12,12 +12,14 @@ import { of } from 'rxjs';
 export class NavbarComponent implements OnInit {
   login: Observable<boolean> = of(false);
 
-  constructor(private authService: AuthService, private loginComponent: LoginComponent) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     if (this.authService.getCurrentUser()) {
-      if (this.authService.getMail() && this.authService.getPassword()) {
-        this.login = this.authService.login(this.authService.getMail(), this.authService.getPassword());
+      const mail = this.authService.getMail();
+      const password = this.authService.getPassword();
+      if (mail && password) {
+        this.login = this.authService.login(mail, password);
       } else {
         this.login = of(false);
       }
@@ -25,6 +27,5 @@ export class NavbarComponent implements OnInit {
       this.login = of(false);
     }
     console.log(this.authService.getCurrentUser());
-
   }
 }

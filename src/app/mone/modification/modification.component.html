@@ -1,0 +1,53 @@
+<form [formGroup]="Userform" (ngSubmit)="onSubmit()">
+  <label for="Nom">Nom : </label>
+  <input id="Nom" type="text" formControlName="Nom" />
+  <br />
+
+  <label for="Prenom">Prénom : </label>
+  <input id="Prenom" type="text" formControlName="Prenom" />
+  <div
+    *ngIf="
+      Userform.get('Prenom')!.invalid &&
+      (Userform.get('Prenom')!.dirty || Userform.get('Prenom')!.touched)
+    "
+  ></div>
+  <div
+    *ngIf="
+      Userform.get('Nom')!.invalid &&
+      (Userform.get('Nom')!.dirty || Userform.get('Nom')!.touched)
+    "
+  ></div>
+  <div
+    *ngIf="
+      Userform.get('Mail')!.invalid &&
+      (Userform.get('Mail')!.dirty || Userform.get('Mail')!.touched)
+    "
+  ></div>
+
+  <br />
+
+  <label for="Mail">Mail : </label>
+  <input id="Mail" type="text" formControlName="Mail" />
+  <br />
+
+  <label for="Ecole">Ecole : </label>
+  <input id="Ecole" type="text" formControlName="Ecole" />
+  <br />
+
+  <label for="Role">Role : </label>
+  <input id="Role" type="text" formControlName="Role" />
+
+  <label for="Password">Mot de passe :</label>
+  <input id="Password" type="password" formControlName="Password" />
+  <label for="ConfirmPassword">Confirmer le mot de passe :</label>
+  <input
+    id="ConfirmPassword"
+    type="password"
+    formControlName="ConfirmPassword"
+  />
+  <br />
+
+  <button type="submit" class="btn btn-primary">Envoyer</button>
+  <br />
+</form>
+<p></p>
