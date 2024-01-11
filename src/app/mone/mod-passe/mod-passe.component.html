@@ -1,10 +1,15 @@
 <form [formGroup]="Userform" (ngSubmit)="onSubmit()">
   <label for="actualPassword">Mot de passe actuel :</label>
   <input id="actualPassword" type="password" formControlName="actualPassword" />
+  <div *ngIf="Userform.controls['actualPassword'].touched && Userform.controls['actualPassword'].errors">
+    <div *ngIf="Userform.controls['actualPassword'].errors['required']">Le mot de passe actuel est requis.</div>
+  </div>
 
   <label for="Password">Nouveau mot de passe :</label>
   <input id="Password" type="password" formControlName="Password" />
-
+  <div *ngIf="Userform.controls['Password'].touched && Userform.controls['Password'].errors">
+    <div *ngIf="Userform.controls['Password'].errors['required']">Le nouveau mot de passe est requis.</div>
+  </div>
   <br />
 
   <label for="ConfirmPassword">Confirmer le nouveau mot de passe :</label>
@@ -13,7 +18,9 @@
     type="password"
     formControlName="ConfirmPassword"
   />
-
+  <div *ngIf="Userform.controls['ConfirmPassword'].touched && Userform.controls['ConfirmPassword'].errors">
+    <div *ngIf="Userform.controls['ConfirmPassword'].errors['required']">La confirmation du nouveau mot de passe est requise.</div>
+  </div>
   <br />
 
   <button type="submit" class="btn btn-primary">Envoyer</button>
