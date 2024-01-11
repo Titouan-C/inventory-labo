@@ -1,10 +1,13 @@
 <form [formGroup]="Userform" (ngSubmit)="onSubmit()">
-  <label for="Password">Mot de passe :</label>
+  <label for="actualPassword">Mot de passe actuel :</label>
+  <input id="actualPassword" type="password" formControlName="actualPassword" />
+
+  <label for="Password">Nouveau mot de passe :</label>
   <input id="Password" type="password" formControlName="Password" />
 
   <br />
 
-  <label for="ConfirmPassword">Confirmer le mot de passe :</label>
+  <label for="ConfirmPassword">Confirmer le nouveau mot de passe :</label>
   <input
     id="ConfirmPassword"
     type="password"

@@ -56,11 +56,23 @@ export class AuthService {
     }
   }
 
-  updateCurrentUser(newUser: NewUser): void {
-    const userIndex = this.users.findIndex(u => u.id === this.currentUser?.id);
-    if (userIndex !== -1) {
-      this.users[userIndex] = newUser;
+  updateUser(user: NewUser): void {
+    const index = user.id - 1;
+    this.users[index] = Object.assign({}, user);
+    this.currentUser = user;
+    localStorage.setItem("currentUser", JSON.stringify(user));
+  }
+
+  modificationPasswordCurrentUser(newPassword: string): void {
+    const indexUtilisateur = this.users.findIndex(utilisateur => utilisateur.id === this.currentUser?.id);
+
+    if (indexUtilisateur !== -1) {
+      this.users[indexUtilisateur].Password = newPassword;
+      this.users[indexUtilisateur].ConfirmPassword = newPassword;
+      if (this.currentUser) {
+        this.currentUser = { ...this.currentUser, Password: newPassword, ConfirmPassword: newPassword } as NewUser;
+        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+      }
     }
-    localStorage.setItem('currentUser', JSON.stringify(newUser));
   }
 }

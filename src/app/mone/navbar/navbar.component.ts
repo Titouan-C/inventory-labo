@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { LoginComponent } from '../auth/login/login.component';
 import { of } from 'rxjs';
 
 @Component({
@@ -26,6 +25,5 @@ export class NavbarComponent implements OnInit {
     } else {
       this.login = of(false);
     }
-    console.log(this.authService.getCurrentUser());
   }
 }
