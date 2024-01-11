@@ -1,0 +1,26 @@
+<nav>
+  <div>
+    <ul>
+      <li routerLinkActive="active"><a [routerLink]="['home/']">Accueil</a></li>
+      <li routerLinkActive="active" *ngIf="!(login | async)"><a [routerLink]="['user/register']">Inscription</a></li>
+      <li routerLinkActive="active" *ngIf="!(login | async)"><a [routerLink]="['user/login']">Connexion</a></li>
+      <li routerLinkActive="active" *ngIf="(login | async)"><a [routerLink]="['user/logout']">Deconnexion</a></li>
+      <li routerLinkActive="active" *ngIf="(login | async)"><a [routerLink]="['user/update']">Modification Utilisateur</a></li>
+      <li routerLinkActive="active" *ngIf="(login | async)"><a [routerLink]="['user/update-pwd']">Modification Mot de passe</a></li>
+
+    
+      <!-- <li routerLinkActive="active">
+        <a routerLink="#">Gestion de l'inventaire</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="#">Réservation de matériel</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="#">Réservation de salle</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="#">Gestion des utilisateurs</a>
+      </li> -->
+    </ul>
+  </div>
+</nav>

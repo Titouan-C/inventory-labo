@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <legend>Formulaire de connexion</legend>
+    
+      <div>
+        <label for="mail">Adresse email :</label>
+        <input type="text" id="mail" formControlName="mail">
+      </div>
+    
+      <div>
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" formControlName="password">
+      </div>
+    
+      <div>
+        <input type="submit" value="Se connecter">
+      </div>
+    </fieldset>
+  </form>
+  
