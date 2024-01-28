@@ -3,6 +3,8 @@ import { NewUser } from '../new-user.model';
 import { EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-new-user',
@@ -17,19 +19,19 @@ export class NewUserComponent {
 
   Userform = this.fb.group(
     {
-      Nom: this.fb.control('', [Validators.required]),
-      Prenom: this.fb.control('', [Validators.required]),
-      Mail: this.fb.control('', [Validators.required]),
-      Ecole: this.fb.control(''),
-      Role: this.fb.control(''),
-      Password: this.fb.control('', [Validators.required]),
-      ConfirmPassword: this.fb.control('', [Validators.required]),
+      lastname: this.fb.control('', [Validators.required]),
+      firstname: this.fb.control('', [Validators.required]),
+      mail: this.fb.control('', [Validators.required]),
+      ecole: this.fb.control(''),
+      role: this.fb.control(''),
+      password: this.fb.control('', [Validators.required]),
+      confirmPassword: this.fb.control('', [Validators.required]),
     },
     { updateOn: 'submit' }
   );
   submitted = false;
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.submitted = false;
@@ -40,7 +42,7 @@ export class NewUserComponent {
       this.Userform.patchValue(this.model);
     }
   }
-  onSubmit() {
+  onSubmit() {  
     this.submitted = true;
 
     if (this.Userform.valid) {
@@ -49,16 +51,36 @@ export class NewUserComponent {
 
       if (newPassword === confirmPassword) {
         this.model = { ...this.model!, ...this.Userform.value };
+        this.executeFetchRequest();
         this.emitUser.emit(this.model!);
+        this.router.navigate(['/']);
       } else {
         console.log('Password and Confirm Password do not match.');
       }
     }
-    console.log(this.model);
   }
   resetForm() {
     if (this.model !== null) {
       this.Userform.patchValue(this.model);
     }
+  }
+
+  executeFetchRequest() {
+    const fetchLastname = this.Userform.get('lastname')?.value;
+    const fetchFirstname = this.Userform.get('firstname')?.value;
+    const fetchMail = this.Userform.get('mail')?.value;
+    const fetchEcole = this.Userform.get('ecole')?.value;
+    const fetchRole = this.Userform.get('role')?.value;
+    const fetchPassword = this.Userform.get('password')?.value;
+
+    const fetchRequest = `https://localhost:8000/execute-sql?type=INSERT&lastname=${fetchLastname}&firstname=${fetchFirstname}&mail=${fetchMail}&ecole=${fetchEcole}&role=${fetchRole}&password=${fetchPassword}`
+    fetch(fetchRequest, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .catch((error) => console.error('Erreur:', error));
   }
 }
