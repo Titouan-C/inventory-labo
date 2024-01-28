@@ -13,11 +13,13 @@ export class ModPasseComponent {
   model: NewUser | null = null;
   @Output() emitUser: EventEmitter<NewUser> = new EventEmitter<NewUser>();
 
+  private boolPassword = false;
+
   Userform = this.fb.group(
     {
       actualPassword: this.fb.control('', [Validators.required]),
-      Password: this.fb.control('', [Validators.required]),
-      ConfirmPassword: this.fb.control('', [Validators.required]),
+      password: this.fb.control('', [Validators.required]),
+      confirmPassword: this.fb.control('', [Validators.required]),
     },
     { updateOn: 'submit' }
   );
@@ -38,25 +40,18 @@ export class ModPasseComponent {
     this.submitted = true;
 
     if (this.Userform.valid) {
-      const actualPassword = this.Userform.get('actualPassword')?.value;
-      const newPassword = this.Userform.get('Password')?.value;
-      const confirmPassword = this.Userform.get('ConfirmPassword')?.value;
+      const newPassword = this.Userform.get('password')?.value;
+      const confirmPassword = this.Userform.get('confirmPassword')?.value;
 
       if (newPassword === confirmPassword) {
         if (this.authService.getCurrentUser()) {
-          if (this.authService.getCurrentUser()?.Password === actualPassword) {
-            this.authService.modificationPasswordCurrentUser(newPassword!);
-            alert("Updated password")
-            this.router.navigate(['/']);
-          } else {
-            alert("Incorrect actual password");
-          }
+          this.executeFetchSelectRequest();
         } else {
           alert("Error : you are not connected")
           this.router.navigate(['/user/login']);
         }
       } else {
-        alert('Password and Confirm Password do not match.');
+        alert('Password and ConecuteFetchRequestfirm Password do not match.');
       }
     }
   }
@@ -64,9 +59,60 @@ export class ModPasseComponent {
   resetForm() {
     if (this.model !== null) {
       this.Userform.patchValue({
-        Password: '',
-        ConfirmPassword: '',
+        password: '',
+        confirmPassword: '',
       });
     }
+  }
+
+  executeFetchInsertRequest() {
+    const currentUser = this.authService.getCurrentUser();
+
+    const fetchMail = currentUser?.mail;
+    const fetchNewPassword = this.Userform.get('password')?.value;
+
+    const fetchRequest = `https://localhost:8000/execute-sql?type=UPDATEPASSWORD&mail=${fetchMail}&password=${fetchNewPassword}`
+    fetch(fetchRequest, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .catch((error) => console.error('Erreur:', error));
+  }
+
+  executeFetchSelectRequest() {
+    const currentUser = this.authService.getCurrentUser();
+    const fetchRequestMail = currentUser?.mail;
+    const fetchRequestPassword = this.Userform.get('actualPassword')?.value;
+
+    fetch(`https://localhost:8000/export-json?type=VERIFY&mail=${fetchRequestMail}&password=${fetchRequestPassword}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          this.boolPassword = data;
+          if (this.boolPassword) {
+            this.executeFetchInsertRequest();
+            alert("Updated password")
+            this.router.navigate(['/']);
+          } else {
+            alert('Password not match.');
+          }
+      })
+      .catch(error => {
+          console.error('Erreur lors de la requête :', error);
+          throw error;
+      });
   }
 }

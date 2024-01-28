@@ -14,14 +14,9 @@ export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    console.log("Current user:", this.authService.getCurrentUser());
     if (this.authService.getCurrentUser()) {
-      const mail = this.authService.getMail();
-      const password = this.authService.getPassword();
-      if (mail && password) {
-        this.login = this.authService.login(mail, password);
-      } else {
-        this.login = of(false);
-      }
+      this.login = of(true);
     } else {
       this.login = of(false);
     }

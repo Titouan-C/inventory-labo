@@ -1,52 +1,52 @@
 <form [formGroup]="Userform" (ngSubmit)="onSubmit()">
-  <label for="Nom">Nom : </label>
-  <input id="Nom" type="text" formControlName="Nom" />
-  <div *ngIf="Userform.controls['Nom'].touched && Userform.controls['Nom'].errors">
-    <div *ngIf="Userform.controls['Nom'].errors['required']">Le nom est requis.</div>
+  <label for="lastname">Nom : </label>
+  <input id="lastname" type="text" formControlName="lastname" />
+  <div *ngIf="Userform.controls['lastname'].touched && Userform.controls['lastname'].errors">
+    <div *ngIf="Userform.controls['lastname'].errors['required']">Le nom est requis.</div>
   </div>
   <br />
 
-  <label for="Prenom">Prénom : </label>
-  <input id="Prenom" type="text" formControlName="Prenom" />
-  <div *ngIf="Userform.controls['Prenom'].touched && Userform.controls['Prenom'].errors">
-    <div *ngIf="Userform.controls['Prenom'].errors['required']">Le prénom est requis.</div>
+  <label for="firstname">Prénom : </label>
+  <input id="firstname" type="text" formControlName="firstname" />
+  <div *ngIf="Userform.controls['firstname'].touched && Userform.controls['firstname'].errors">
+    <div *ngIf="Userform.controls['firstname'].errors['required']">Le prénom est requis.</div>
   </div>
   <br />
 
-  <label for="Mail">Mail : </label>
-  <input id="Mail" type="text" formControlName="Mail" />
-  <div *ngIf="Userform.controls['Mail'].touched && Userform.controls['Mail'].errors">
-    <div *ngIf="Userform.controls['Mail'].errors['required']">L'email est requise.</div>
+  <label for="mail">Mail : </label>
+  <input id="mail" type="text" formControlName="mail" />
+  <div *ngIf="Userform.controls['mail'].touched && Userform.controls['mail'].errors">
+    <div *ngIf="Userform.controls['mail'].errors['required']">L'email est requise.</div>
   </div>
   <br />
 
-  <label for="Ecole">Ecole : </label>
-  <input id="Ecole" type="text" formControlName="Ecole" />
-  <div *ngIf="Userform.controls['Ecole'].touched && Userform.controls['Ecole'].errors">
-    <div *ngIf="Userform.controls['Ecole'].errors['required']">L'école est requise.</div>
+  <label for="ecole">Ecole : </label>
+  <input id="ecole" type="text" formControlName="ecole" />
+  <div *ngIf="Userform.controls['ecole'].touched && Userform.controls['ecole'].errors">
+    <div *ngIf="Userform.controls['ecole'].errors['required']">L'école est requise.</div>
   </div>
   <br />
 
-  <label for="Role">Role : </label>
-  <input id="Role" type="text" formControlName="Role" />
-  <div *ngIf="Userform.controls['Role'].touched && Userform.controls['Role'].errors">
-    <div *ngIf="Userform.controls['Role'].errors['required']">Le rôle est requis.</div>
+  <label for="role">Role : </label>
+  <input id="=role" type="text" formControlName="role" />
+  <div *ngIf="Userform.controls['role'].touched && Userform.controls['role'].errors">
+    <div *ngIf="Userform.controls['role'].errors['required']">Le rôle est requis.</div>
   </div>
 
-  <label for="Password">Mot de passe :</label>
-  <input id="Password" type="password" formControlName="Password" />
-  <div *ngIf="Userform.controls['Password'].touched && Userform.controls['Password'].errors">
-    <div *ngIf="Userform.controls['Password'].errors['required']">Le mot de passe est requis.</div>
+  <label for="password">Mot de passe :</label>
+  <input id="password" type="password" formControlName="password" />
+  <div *ngIf="Userform.controls['password'].touched && Userform.controls['password'].errors">
+    <div *ngIf="Userform.controls['password'].errors['required']">Le mot de passe est requis.</div>
   </div>
 
-  <label for="ConfirmPassword">Confirmer le mot de passe :</label>
+  <label for="confirmPassword">Confirmer le mot de passe :</label>
   <input
-    id="ConfirmPassword"
+    id="confirmPassword"
     type="password"
-    formControlName="ConfirmPassword"
+    formControlName="confirmPassword"
   />
-  <div *ngIf="Userform.controls['ConfirmPassword'].touched && Userform.controls['ConfirmPassword'].errors">
-    <div *ngIf="Userform.controls['ConfirmPassword'].errors['required']">La confirmation de mot de passe est requise.</div>
+  <div *ngIf="Userform.controls['confirmPassword'].touched && Userform.controls['confirmPassword'].errors">
+    <div *ngIf="Userform.controls['confirmPassword'].errors['required']">La confirmation de mot de passe est requise.</div>
   </div>
   <br />
 

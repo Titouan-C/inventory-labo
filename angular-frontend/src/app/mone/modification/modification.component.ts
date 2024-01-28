@@ -10,26 +10,29 @@ import { NewUser } from '../new-user.model';
   styleUrls: ['./modification.component.css'],
 })
 export class ModificationComponent implements OnInit {
+  
+  private boolPassword = false;
+
   Userform = this.fb.group({
-    Nom: this.fb.control('', [
+    lastname: this.fb.control('', [
       Validators.required,
     ]),
-    Prenom: this.fb.control('', [
+    firstname: this.fb.control('', [
       Validators.required,
     ]),
-    Mail: this.fb.control('', [
+    mail: this.fb.control('', [
       Validators.required,
     ]),
-    Ecole: this.fb.control('', [
+    ecole: this.fb.control('', [
       Validators.required,
     ]),
-    Role: this.fb.control('', [
+    role: this.fb.control('', [
       Validators.required,
     ]),
-    Password: this.fb.control('', [
+    password: this.fb.control('', [
       Validators.required,
     ]),
-    ConfirmPassword: this.fb.control('', [
+    confirmPassword: this.fb.control('', [
       Validators.required,
     ]),
   });
@@ -40,13 +43,9 @@ export class ModificationComponent implements OnInit {
 
   ngOnInit() {
     this.submitted = false;
-
     const currentUser = this.authService.getCurrentUser();
-
     if (currentUser) {
-      this.Userform.patchValue(currentUser);
-      this.Userform.get('Password')?.setValue("");
-      this.Userform.get('ConfirmPassword')?.setValue("");
+      this.executeFetchUpdateGetRequest();
     }
   }
 
@@ -54,34 +53,101 @@ export class ModificationComponent implements OnInit {
     this.submitted = true;
 
     if (this.Userform.valid) {
-      const password = this.Userform.get('Password')?.value;
-      const confirmPassword = this.Userform.get('ConfirmPassword')?.value;
-
+      const password = this.Userform.get('password')?.value;
+      const confirmPassword = this.Userform.get('confirmPassword')?.value;
       if (password === confirmPassword) {
-        const user = this.authService.getCurrentUser();
-        if (user) {
-          const formValues = this.Userform.getRawValue();
-          if (user.Password === password) {
-            const updatedData = new NewUser(user.id!, formValues.Nom!, formValues.Prenom!, formValues.Mail!, formValues.Ecole!, formValues.Role!, formValues.Password!, formValues.ConfirmPassword!);
-            this.authService.updateUser(updatedData);
-            alert('User updated:' + this.authService.getCurrentUser());
-            this.router.navigate(['/']);
-          } else {
-            alert('Please enter your correct password');
-          }
-        } else {
-          alert('No current user found.');
-        }
+        this.executeFetchVerifyGetRequest()
       } else {
         alert('Password and Confirm Password do not match.');
       }
     }
   }
 
-  resetForm() {
+  executeFetchUpdatePostRequest() {
     const currentUser = this.authService.getCurrentUser();
-    if (currentUser) {
-      this.Userform.patchValue(currentUser);
-    }
+
+    const fetchLastname = this.Userform.get('lastname')?.value;
+    const fetchFirstname = this.Userform.get('firstname')?.value;
+    const fetchMail = this.Userform.get('mail')?.value;
+    const fetchEcole = this.Userform.get('ecole')?.value;
+    const fetchRole = this.Userform.get('role')?.value;
+
+    const fetchWhere = currentUser?.mail;
+
+    const fetchRequest = `https://localhost:8000/execute-sql?type=UPDATE&where=${fetchWhere}&lastname=${fetchLastname}&firstname=${fetchFirstname}&mail=${fetchMail}&ecole=${fetchEcole}&role=${fetchRole}`
+    fetch(fetchRequest, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    .catch((error) => console.error('Erreur:', error));
   }
+  
+  executeFetchVerifyGetRequest() {
+    const fetchRequestMail = this.authService.getCurrentUser()?.mail;
+    const fetchRequestPassword = this.Userform.get('password')?.value;
+
+    fetch(`https://localhost:8000/export-json?type=VERIFY&mail=${fetchRequestMail}&password=${fetchRequestPassword}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          this.boolPassword = data;
+
+          if (this.boolPassword) {
+            const formValues = this.Userform.getRawValue();
+            const updatedData = new NewUser(formValues.mail!);
+            this.executeFetchUpdatePostRequest();
+            this.authService.updateUser(updatedData);
+            alert('User updated:' + this.authService.getCurrentUser());
+            this.router.navigate(['/']);
+          } else {
+            alert('sas not match.');
+          }
+      })
+      .catch(error => {
+          console.error('Erreur lors de la requête :', error);
+          throw error;
+      });
+  }
+
+  executeFetchUpdateGetRequest() {
+    const currentUserMail = this.authService.getCurrentUser()?.mail;
+
+    fetch(`https://localhost:8000/export-json?type=UPDATEUSER&mail=${currentUserMail}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {        
+        this.Userform.patchValue({
+          mail: currentUserMail,
+          ...data,
+        });
+      })
+      .catch(error => {
+        console.error('Erreur lors de la requête :', error);
+        throw error;
+      });
+  }
+
 }
